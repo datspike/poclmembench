@@ -91,6 +91,7 @@ int OclEngine::RunBench1(const std::string& function, const int size, const int 
 	cl::Kernel kernel(prg, function.c_str());
 	cl::CommandQueue queue(context, device, CL_QUEUE_PROFILING_ENABLE);
 	int nr = 0;
+	double sum = 0;
 	int memStart=0;
 	for (auto &buffer : buffers) { // buffers loop
 		kernel.setArg(0, buffer);
@@ -114,7 +115,9 @@ int OclEngine::RunBench1(const std::string& function, const int size, const int 
 		std::cout << " Speed: " << std::fixed << std::setprecision(2) << mSIZE / tick2 / pow(2, 20) << " GByte/s ";
 		std::cout << (liczba == 125 ? "OK" : "FALSE") << std::endl;
 		nr++;
+		sum += mSIZE / tick2 / pow(2, 20);
 	}
+	std::cout << "Average speed: " << std::fixed << std::setprecision(2) << sum / nr << " GByte/s ";
 	queue.finish();
 	return 0;
 }
