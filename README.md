@@ -52,12 +52,10 @@ cmake --build .
 ```
    
 
-## example
+## Example
 ```sh
-poclmembench -p 0 -d 0
+poclmembench
 ```
-![Linux Screeenshot](img/ScreenshotLin.png?raw=true "Linux Screenshot")
-![MacOS Screeenshot](img/ScreenshotMac.png?raw=true "MacOS Screenshot")
-![Windows Screeenshot](img/ScreenshotWin.png?raw=true "Windows Screenshot")
+![Screeenshot](https://i.imgur.com/vgIdCMB.png "Example")
 
 
