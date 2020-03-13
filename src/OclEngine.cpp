@@ -119,7 +119,8 @@ int OclEngine::RunBench1(const std::string& function, const int size, const int 
 		
 		if ((speed > (sum / nr * 0.4)) || (nr == 0)){
 			nr++;
-			sum += speed;
+			sum += speed;			
+		} else {
 			std::cout << " AVG skip";
 		}
 		std::cout << std::endl;
