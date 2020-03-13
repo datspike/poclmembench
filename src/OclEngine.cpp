@@ -92,6 +92,7 @@ int OclEngine::RunBench1(const std::string& function, const int size, const int 
 	cl::CommandQueue queue(context, device, CL_QUEUE_PROFILING_ENABLE);
 	int nr = 0;
 	double sum = 0;
+	double speed = 0;
 	int memStart=0;
 	for (auto &buffer : buffers) { // buffers loop
 		kernel.setArg(0, buffer);
@@ -112,13 +113,20 @@ int OclEngine::RunBench1(const std::string& function, const int size, const int 
 		}
 		queue.enqueueReadBuffer(buffer, CL_BLOCKING, 0, sizeof(liczba), &liczba);
 		tick2 = tick2 / pow(10, 6) / repeats;
-		std::cout << " Speed: " << std::fixed << std::setprecision(2) << mSIZE / tick2 / pow(2, 20) << " GByte/s ";
-		std::cout << (liczba == 125 ? "OK" : "FALSE") << std::endl;
-		nr++;
-		sum += mSIZE / tick2 / pow(2, 20);
+		speed = mSIZE / tick2 / pow(2, 20);
+		std::cout << " Speed: " << std::fixed << std::setprecision(2) << speed << " GByte/s ";
+		std::cout << (liczba == 125 ? "OK" : "FALSE");
+		
+		if ((speed > (sum / nr * 0.4)) || (nr == 0)){
+			nr++;
+			sum += speed;
+			std::cout << " AVG skip";
+		}
+		std::cout << std::endl;
 	}
 	std::cout << "Average speed: " << std::fixed << std::setprecision(2) << sum / nr << " GByte/s ";
 	queue.finish();
+	std::cin.ignore();
 	return 0;
 }
 // -------------------------------------------------------------------------------
